@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from "firebase/auth";
 
 //========================================================================================
 
@@ -22,6 +22,7 @@ const app = initializeApp(firebaseConfig);
 // Providers & getAuth
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 const auth = getAuth();
 
@@ -61,7 +62,15 @@ const Form = () => {
 					photo: photoURL
 				}
 				setUser(loggedInUser);
-			})
+			});
+	}
+
+	// Facebook Provider Handling
+	const handleFacebookProvider = () => {
+		signInWithPopup(auth, facebookProvider)
+			.then(result => {
+				console.log(result.user);
+			});
 	}
 
 	return (
@@ -105,7 +114,7 @@ const Form = () => {
 					<button onClick={handleGitHubProvider} type="button">Github Sign In</button>
 
 					{/* Facebook Authentication */}
-					<button type="button">Facebook Sign In</button>
+					<button onClick={handleFacebookProvider} type="button">Facebook Sign In</button>
 				</div>
 
 			</form>
